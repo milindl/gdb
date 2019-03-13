@@ -16,8 +16,8 @@ import (
 type NotificationCallback func(notification map[string]interface{})
 
 // Send issues a command to GDB. Operation is the name of the MI2 command to
-// execute without the leading "-" (this means that it is impossible send a CLI
-// command), arguments is an optional list of arguments, in GDB parlance the can
+// execute without the leading "-" (this means that it is impossible send only CLI
+// commands), arguments is an optional list of arguments, in GDB parlance the can
 // be: options, parameters or "--". It returns a generic object which represents
 // the reply of GDB or an error in case the command cannot be delivered to GDB.
 func (gdb *Gdb) Send(operation string, arguments ...string) (map[string]interface{}, error) {
@@ -30,7 +30,7 @@ func (gdb *Gdb) Send(operation string, arguments ...string) (map[string]interfac
 	gdb.mutex.Unlock()
 
 	// prepare the command
-	buffer := bytes.NewBufferString(fmt.Sprintf("%s-%s", sequence, operation))
+	buffer := bytes.NewBufferString(fmt.Sprintf("%s %s", sequence, operation))
 	for _, argument := range arguments {
 		buffer.WriteByte(' ')
 		// quote the argument only if needed because GDB interprets un/quoted

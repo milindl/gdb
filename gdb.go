@@ -117,7 +117,7 @@ func (gdb *Gdb) Interrupt() error {
 // Exit sends the exit command to GDB and waits for the process to exit.
 func (gdb *Gdb) Exit() error {
 	// send the exit command and wait for the GDB process
-	if _, err := gdb.Send("quit"); err != nil {
+	if _, err := gdb.Send("-gdb-exit"); err != nil {
 		return err
 	}
 
